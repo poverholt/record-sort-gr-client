@@ -1,26 +1,46 @@
-(ns record-sort-gr-client.handler)
+(ns record-sort-gr-client.handler
+  (:require [record-sort-gr-client.add-view :as add]
+            [record-sort-gr-client.main-view :as main]
+            [record-sort-gr-client.records :as recs]))
 
-(defn home [req]
-  {:status 200
-   :body "Home response in handler"
-   :headers {}})
+(defn main [req]
+  (let [records (recs/read-recs)]
+    {:status 200
+     :headers {}
+     :body (main/page records)}))
 
 (defn add [req]
   {:status 200
-   :body "Add response"
-   :headers {}})
+   :headers {}
+   :body (add/page)})
 
 (defn sort [req]
-  {:status 200
-   :body "Sort response"
-   :headers {}})
+  (let [req-order (get-in req [:params "sort-order"])
+        order (recs/set-sort-order req-order)]
+    (if order
+      {:status 200
+       :headers {}
+       :body (str "Sort order set to " order)}
+      {:status 400
+       :headers {}
+       :body (str "Invalid sort order: " req-order)})))
 
 (defn create [req]
-  {:status 200
-   :body "Create record response"
-   :headers {}})
+  (let [error (recs/create nil nil nil nil nil)]
+    (if error
+      {:status 400
+       :headers {}
+       :body error}
+      {:status 201
+       :headers {}
+       :body "New records created"})))
 
 (defn reset [req]
-  {:status 200
-   :body "Reset records response"
-   :headers {}})
+  (let [error (recs/reset)]
+    (if error
+      {:status 500
+       :headers {}
+       :body error}
+      {:status 200
+       :headers {}
+       :body "Records reset to empty"})))
