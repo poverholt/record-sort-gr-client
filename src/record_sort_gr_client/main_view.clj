@@ -18,26 +18,29 @@
    
    [:body
     [:h1 "Record Sorting"]
-    [:p (str "There are " (count recs) " records.")]
+
     [:div
      [:form {:method "GET" :action "/add"}
-      [:input {:type "button" :name "add-btn"}]]
+      [:button {:type "submit"} "Add"]]
      [:form {:method "DELETE" :action "/"}
-      [:input {:type "button" :name "reset-btn"}]]
+      [:input {:type "button" :name "reset-btn" :value "Reset"}]]
      [:form {:method "PUT" :action "/sort"}
       [:div
        [:input {:type "radio" :id "radio-gender" :name "sort-order" :value "gender" :checked true}]
        [:label {:for "radio-gender"} "Gender"]]
       [:div
-       [:input {:type "radio" :id "radio-gender" :name "sort-order" :value "gender" :checked true}]
-       [:label {:for "radio-gender"} "Gender"]]
+       [:input {:type "radio" :id "radio-bdate" :name "sort-order" :value "bdate" :checked false}]
+       [:label {:for "radio-bdate"} "Birthdate"]]
       [:div
-       [:input {:type "radio" :id "radio-gender" :name "sort-order" :value "gender" :checked true}]
-       [:label {:for "radio-gender"} "Gender"]]]]
+       [:input {:type "radio" :id "radio-name" :name "sort-order" :value "name" :checked false}]
+       [:label {:for "radio-name"} "Name"]]]]
+
     [:div
+     [:p (str "There are " (count recs) " records.")]
      [:ul
       (for [rec recs]
         [:li rec])]]
+    
     ;;[:script {:src "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"}]
     ;;[:script {:src "/bootstrap/js/bootstrap.min.js"}]
     ]))

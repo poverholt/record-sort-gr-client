@@ -18,8 +18,8 @@
   (let [req-order (get-in req [:params "sort-order"])
         order (recs/set-sort-order req-order)]
     (if order
-      {:status 200
-       :headers {}
+      {:status 302
+       :headers {"Location" "/"}
        :body (str "Sort order set to " order)}
       {:status 400
        :headers {}
@@ -31,8 +31,8 @@
       {:status 400
        :headers {}
        :body error}
-      {:status 201
-       :headers {}
+      {:status 302 ;; 201
+       :headers {"Location" "/"}
        :body "New records created"})))
 
 (defn reset [req]

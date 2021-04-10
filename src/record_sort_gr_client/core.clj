@@ -10,8 +10,7 @@
 
 (defroutes routes
   (GET "/" [] hdlr/main)
-  ;;(GET "/" [] "Replace with main page")
-  ;;(GET "/add" [] hdlr/add)
+  (GET "/add" [] hdlr/add)
   ;;(PUT "/sort" [] hdlr/sort)
   ;;(POST "/" [] hdlr/create)
   ;;(DELETE "/" [] hdlr/reset)
