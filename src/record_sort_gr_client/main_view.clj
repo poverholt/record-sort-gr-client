@@ -22,18 +22,13 @@
     [:div
      [:form {:method "GET" :action "/add"}
       [:button {:type "submit"} "Add"]]
-     [:form {:method "DELETE" :action "/"}
-      [:input {:type "button" :name "reset-btn" :value "Reset"}]]
-     [:form {:method "PUT" :action "/sort"}
-      [:div
-       [:input {:type "radio" :id "radio-gender" :name "sort-order" :value "gender" :checked true}]
-       [:label {:for "radio-gender"} "Gender"]]
-      [:div
-       [:input {:type "radio" :id "radio-bdate" :name "sort-order" :value "bdate" :checked false}]
-       [:label {:for "radio-bdate"} "Birthdate"]]
-      [:div
-       [:input {:type "radio" :id "radio-name" :name "sort-order" :value "name" :checked false}]
-       [:label {:for "radio-name"} "Name"]]]]
+     [:form {:method "POST" :action "/"}
+      [:input {:type :hidden
+               :name "_method"
+               :value "DELETE"}]
+      [:button {:type "submit"} "Reset"]]
+     [:form {:method "GET" :action "/sort"}
+      [:button {:type "submit"} "Sort"]]]
 
     [:div
      [:p (str "There are " (count recs) " records.")]

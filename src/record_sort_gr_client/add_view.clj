@@ -10,5 +10,17 @@
     [:meta {:charset "utf-8"}]]
    
    [:body
-    [:div
-     [:h1 "Add a Record"]]]))
+    [:h1 "Add a Record"]
+    [:form {:method "POST" :action "/"}
+     [:div
+      [:label {:for "fname"} "First Name"]
+      [:input {:type "text" :name "fname" :id "fname"}]]
+     [:div 
+      [:label {:for "lname"} "Last Name"]
+      [:input {:type "text" :name "lname" :id "lname"}]]
+     [:div 
+      [:label {:for "color"} "Favorite Color"]
+      [:input {:type "text" :name "color" :id "color"}]]
+     [:button {:type "submit"} "OK"]]
+    [:form {:method "GET" :action "/"}
+     [:button {:type "submit"} "Cancel"]] ]))

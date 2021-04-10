@@ -9,11 +9,12 @@
             [ring.middleware.reload :refer [wrap-reload]]))
 
 (defroutes routes
-  (GET "/" [] hdlr/main)
-  (GET "/add" [] hdlr/add)
-  ;;(PUT "/sort" [] hdlr/sort)
-  ;;(POST "/" [] hdlr/create)
-  ;;(DELETE "/" [] hdlr/reset)
+  (GET "/" [] hdlr/main-view)
+  (GET "/add" [] hdlr/add-view)
+  (GET "/sort" [] hdlr/order-view)
+  (PUT "/sort" [] hdlr/sort-order)
+  (POST "/" [] hdlr/create)
+  (DELETE "/" [] hdlr/reset)
   ;;(ANY "/request" [] handle-dump)
   (not-found "Route not found."))
 
@@ -35,13 +36,11 @@
         (hdlr (assoc req :request-method method))
         (hdlr req)))))
 
-;; (def app
-;;   (wrap-server
-;;    (wrap-params
-;;     (wrap-simulated-methods
-;;      routes))))
-
-(def app routes)
+(def app
+  (wrap-server
+   (wrap-params
+    (wrap-simulated-methods
+     routes))))
 
 (defn -main [port]
   (jetty/run-jetty app                 {:port (Integer. port)}))

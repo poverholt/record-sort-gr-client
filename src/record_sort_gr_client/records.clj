@@ -17,6 +17,3 @@
 (defn read-recs [] []) ;; TODO: Returns empty list for now
 
 (defn reset [] "ERROR: Not supported")
-
-
-

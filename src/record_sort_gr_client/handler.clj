@@ -1,20 +1,26 @@
 (ns record-sort-gr-client.handler
   (:require [record-sort-gr-client.add-view :as add]
             [record-sort-gr-client.main-view :as main]
+            [record-sort-gr-client.order-view :as order]
             [record-sort-gr-client.records :as recs]))
 
-(defn main [req]
+(defn main-view [req]
   (let [records (recs/read-recs)]
     {:status 200
      :headers {}
      :body (main/page records)}))
 
-(defn add [req]
+(defn add-view [req]
   {:status 200
    :headers {}
    :body (add/page)})
 
-(defn sort [req]
+(defn order-view [req]
+  {:status 200
+   :headers {}
+   :body (order/page)})
+
+(defn sort-order [req]
   (let [req-order (get-in req [:params "sort-order"])
         order (recs/set-sort-order req-order)]
     (if order
@@ -41,6 +47,6 @@
       {:status 500
        :headers {}
        :body error}
-      {:status 200
-       :headers {}
+      {:status 302
+       :headers {"Location" "/"}
        :body "Records reset to empty"})))
