@@ -22,7 +22,7 @@
 
 (defn sort-order [req]
   (let [req-order (get-in req [:params "sort-order"])
-        order (recs/set-sort-order req-order)]
+        order (recs/set-sort-order! req-order)]
     (if order
       {:status 302
        :headers {"Location" "/"}
@@ -32,21 +32,22 @@
        :body (str "Invalid sort order: " req-order)})))
 
 (defn create [req]
-  (let [error (recs/create nil nil nil nil nil)]
+  ;; TODO: Parse out delimiter and fields!
+  (let [error (recs/create-rec! "|" nil nil nil nil nil)]
     (if error
       {:status 400
        :headers {}
-       :body error}
+       :body (str "HTTP error status: " error)}
       {:status 302 ;; 201
        :headers {"Location" "/"}
-       :body "New records created"})))
+       :body "New record created"})))
 
 (defn reset [req]
-  (let [error (recs/reset)]
+  (let [error (recs/reset-recs!)]
     (if error
       {:status 500
        :headers {}
-       :body error}
+       :body (str "HTTP error status: " error)}
       {:status 302
        :headers {"Location" "/"}
        :body "Records reset to empty"})))
