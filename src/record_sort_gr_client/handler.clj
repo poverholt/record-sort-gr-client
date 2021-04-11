@@ -4,11 +4,21 @@
             [record-sort-gr-client.order-view :as order]
             [record-sort-gr-client.records :as recs]))
 
+(defn- errors->strvec
+  [error]
+  [(str "HTTP error status: " (get error :status "N/A"))
+   (str "Reason: " (get error :reason-phrase "N/A"))
+   (str "Details: " (get error :body "N/A"))])
+  
 (defn main-view [req]
-  (let [records (recs/read-recs)]
-    {:status 200
-     :headers {}
-     :body (main/page records)}))
+  (let [results (recs/read-recs)]
+    (if (:status results)
+      {:status (:status results)
+       :headers {}
+       :body (main/page nil (errors->strvec results))}
+      {:status 200
+       :headers {}
+       :body (main/page results nil)})))
 
 (defn add-view [req]
   {:status 200
@@ -37,9 +47,7 @@
     (if error
       {:status (:status error)
        :headers {"Location" "/add"}
-       :body (add/page [(str "HTTP error status: " (:status error))
-                        (str "Reason: " (:reason-phrase error))
-                        (str "Details: " (:body error))])}
+       :body (add/page (errors->strvec error))}
       {:status 201
        :headers {"Location" "/"}
        :body "New record created"})))

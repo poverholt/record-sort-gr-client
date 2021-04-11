@@ -2,7 +2,7 @@
   (:require [hiccup.core :refer [html h]]
             [hiccup.page :refer [html5]]))
 
-(defn page [recs]
+(defn page [recs error-strings]
   (html5
    {:lang "en"}
    
@@ -17,6 +17,12 @@
    ;;          :rel :stylesheet}]]
    
    [:body
+    (when error-strings
+      [:div
+       [:h1 "Errors"]
+       (into [:ul] (for [s error-strings]
+                     [:li s]))])
+    
     [:h1 "Record Sorting"]
 
     [:div

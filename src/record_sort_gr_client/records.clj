@@ -26,6 +26,10 @@
   [action]
   (try
     (action)
+    (catch java.net.ConnectException e
+      {:status 503
+       :headers {}
+       :body "Connection to server failed."})
     (catch Exception e
       (select-keys (ex-data e) [:status :reason-phrase :body]))))
 
@@ -50,28 +54,26 @@
    lname, fname, gender, color, birthdate. All 5 values are strings.
    Returns nil if there was an error."
   []
-  (let [result (client/get (str host "/records/" (:sort-order @state)) {:accept :json})
-        status (:status result)
-        records-str (:body result)
-        records (cheshire/parse-string records-str true)]
-    (if (= status 200) records nil)))
+  (letfn [(action [] (cheshire/parse-string (client/get (str host "/records/" (:sort-order @state)) {:accept :json})))]
+    (client-exception-handler action)))
 
 (defn reset-recs!
   "Resets record list to empty.
    Returns nil if no error and returns HTTP status otherwise."
   []
-  (let [result (client/delete (str host "/records"))
-        status (:status result)]
-    (if (= status 200) nil status)))
+  (letfn [(action [] (do (client/delete (str host "/records"))
+                         nil))]
+    (client-exception-handler action)))
 
-(reset-recs!)
+;; (reset-recs!)
 
-(read-recs)
+;; (read-recs)
 
+;; (cheshire/parse-string (client/get (str host "/records/" (:sort-order @state)) {:accept :json}))
 ;; (set-sort-order! "name")
 
-(create-rec! "|" "Smith" "John" "M" "Blue" "4/3/2001")
+;; (create-rec! "|" "Smith" "John" "M" "Blue" "4/3/2001")
 
-(create-rec! " " nil nil nil nil nil)
+;; (create-rec! " " nil nil nil nil nil)
 
 
