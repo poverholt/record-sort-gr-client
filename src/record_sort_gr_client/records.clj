@@ -66,19 +66,3 @@
   (letfn [(action [] (do (client/delete (str host "/records"))
                          nil))]
     (client-exception-handler action)))
-
-(reset-recs!)
-
-(read-recs)
-
-(client/get (str host "/records/" (:sort-order @state)) {:accept :json})
-
-(cheshire/parse-string (:body (client/get (str host "/records/" (:sort-order @state)) {:accept :json})) true)
-
-;; (set-sort-order! "name")
-
-(create-rec! "|" "Smith" "John" "M" "Blue" "4/3/2001")
-
-;; (create-rec! " " nil nil nil nil nil)
-
-

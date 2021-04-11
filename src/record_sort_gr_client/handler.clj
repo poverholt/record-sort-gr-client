@@ -42,7 +42,6 @@
        :body (str "Invalid sort order: " req-order)})))
 
 (defn create [req]
-  ;; TODO: JSON to keys
   (let [lname (get-in req [:params "lname"])
         fname (get-in req [:params "fname"])
         gender (get-in req [:params "gender"])
