@@ -13,7 +13,7 @@
 (defn add-view [req]
   {:status 200
    :headers {}
-   :body (add/page)})
+   :body (add/page nil)})
 
 (defn order-view [req]
   {:status 200
@@ -35,10 +35,12 @@
   ;; TODO: Parse out delimiter and fields!
   (let [error (recs/create-rec! "|" nil nil nil nil nil)]
     (if error
-      {:status 400
-       :headers {}
-       :body (str "HTTP error status: " error)}
-      {:status 302 ;; 201
+      {:status (:status error)
+       :headers {"Location" "/add"}
+       :body (add/page [(str "HTTP error status: " (:status error))
+                        (str "Reason: " (:reason-phrase error))
+                        (str "Details: " (:body error))])}
+      {:status 201
        :headers {"Location" "/"}
        :body "New record created"})))
 

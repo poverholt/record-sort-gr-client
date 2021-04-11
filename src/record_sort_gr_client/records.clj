@@ -22,22 +22,28 @@
       (swap! state assoc :sort-order order))
     order))
 
+(defn client-exception-handler
+  [action]
+  (try
+    (action)
+    (catch Exception e
+      (select-keys (ex-data e) [:status :reason-phrase :body]))))
+
 (defn create-rec!
   "Creates one record.
    Delimiter may be pipe, comma or space character.
    Gender may be F, Female, M or Male.
    Birthdata format is MM/DD/YYYY.
-   Returns nil if no error and returns HTTP status otherwise."
+   Returns nil if no error and returns map with HTTP error fields :status, :reason-phrase and :body."
   [delimiter lname fname gender color bdate]
-  (let [result (client/post
-                (str host "/records")
-                {:form-params {:data (str lname delimiter
-                                          fname delimiter
-                                          gender delimiter
-                                          color delimiter
-                                          bdate)}})
-        status (:status result)]
-    (if (= status 201) nil status)))
+  (letfn [(action [] (do (client/post (str host "/records")
+                                      {:form-params {:data (str lname delimiter
+                                                                fname delimiter
+                                                                gender delimiter
+                                                                color delimiter
+                                                                bdate)}})
+                         nil))]
+    (client-exception-handler action)))
 
 (defn read-recs
   "Returns Clojure data structure, a vector of maps, where each map has 5 keys:
@@ -58,12 +64,14 @@
         status (:status result)]
     (if (= status 200) nil status)))
 
-;; (reset-recs!)
+(reset-recs!)
 
-;; (read-recs)
+(read-recs)
 
 ;; (set-sort-order! "name")
 
-;; (create-rec! "|" "Smith" "John" "M" "Blue" "4/3/2001")
+(create-rec! "|" "Smith" "John" "M" "Blue" "4/3/2001")
+
+(create-rec! " " nil nil nil nil nil)
 
 
