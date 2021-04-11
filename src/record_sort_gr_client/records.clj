@@ -1,6 +1,7 @@
 (ns record-sort-gr-client.records
   "Access to the record sort server that keeps and sorts the data."
-  (:require [clj-http.client :as client]))
+  (:require [cheshire.core :as cheshire]
+            [clj-http.client :as client]))
 
 (def host "http://localhost:8000")
 
@@ -45,7 +46,8 @@
   []
   (let [result (client/get (str host "/records/" (:sort-order @state)) {:accept :json})
         status (:status result)
-        records (:body result)]
+        records-str (:body result)
+        records (cheshire/parse-string records-str true)]
     (if (= status 200) records nil)))
 
 (defn reset-recs!
