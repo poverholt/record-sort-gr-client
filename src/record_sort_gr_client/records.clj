@@ -54,7 +54,9 @@
    lname, fname, gender, color, birthdate. All 5 values are strings.
    Returns nil if there was an error."
   []
-  (letfn [(action [] (cheshire/parse-string (client/get (str host "/records/" (:sort-order @state)) {:accept :json})))]
+  (letfn [(action [] (cheshire/parse-string
+                      (:body (client/get (str host "/records/" (:sort-order @state)) {:accept :json}))
+                      true))]
     (client-exception-handler action)))
 
 (defn reset-recs!
@@ -65,14 +67,17 @@
                          nil))]
     (client-exception-handler action)))
 
-;; (reset-recs!)
+(reset-recs!)
 
-;; (read-recs)
+(read-recs)
 
-;; (cheshire/parse-string (client/get (str host "/records/" (:sort-order @state)) {:accept :json}))
+(client/get (str host "/records/" (:sort-order @state)) {:accept :json})
+
+(cheshire/parse-string (:body (client/get (str host "/records/" (:sort-order @state)) {:accept :json})) true)
+
 ;; (set-sort-order! "name")
 
-;; (create-rec! "|" "Smith" "John" "M" "Blue" "4/3/2001")
+(create-rec! "|" "Smith" "John" "M" "Blue" "4/3/2001")
 
 ;; (create-rec! " " nil nil nil nil nil)
 

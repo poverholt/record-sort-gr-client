@@ -24,9 +24,15 @@
      [:div 
       [:label {:for "lname"} "Last Name"]
       [:input {:type "text" :name "lname" :id "lname"}]]
+     [:div
+      [:label {:for "gender"} "Gender"]
+      [:input {:type "text" :name "gender" :id "gender"}]]
      [:div 
       [:label {:for "color"} "Favorite Color"]
       [:input {:type "text" :name "color" :id "color"}]]
+     [:div
+      [:label {:for "bdate"} "Birthdate"]
+      [:input {:type "text" :name "bdate" :id "bdate"}]]     
      [:button {:type "submit"} "OK"]]
     [:form {:method "GET" :action "/"}
      [:button {:type "submit"} "Cancel"]] ]))

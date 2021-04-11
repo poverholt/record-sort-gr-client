@@ -40,7 +40,7 @@
      [:p (str "There are " (count recs) " records.")]
      [:ul
       (for [rec recs]
-        [:li rec])]]
+        [:li (str rec)])]]
     
     ;;[:script {:src "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"}]
     ;;[:script {:src "/bootstrap/js/bootstrap.min.js"}]

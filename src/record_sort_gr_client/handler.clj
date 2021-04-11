@@ -42,15 +42,19 @@
        :body (str "Invalid sort order: " req-order)})))
 
 (defn create [req]
-  ;; TODO: Parse out delimiter and fields!
-  (let [error (recs/create-rec! "|" nil nil nil nil nil)]
+  ;; TODO: JSON to keys
+  (let [lname (get-in req [:params "lname"])
+        fname (get-in req [:params "fname"])
+        gender (get-in req [:params "gender"])
+        color (get-in req [:params "color"])
+        bdate (get-in req [:params "bdate"])
+        error (recs/create-rec! "|" lname fname gender color bdate)]
     (if error
       {:status (:status error)
        :headers {"Location" "/add"}
        :body (add/page (errors->strvec error))}
-      {:status 201
-       :headers {"Location" "/"}
-       :body "New record created"})))
+      {:status 302
+       :headers {"Location" "/"}})))
 
 (defn reset [req]
   (let [error (recs/reset-recs!)]
