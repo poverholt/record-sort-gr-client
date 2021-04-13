@@ -17,10 +17,10 @@ The server and test client projects are available on GitHub for download...
 Visit the Heroku sites mentioned above to use the existing installations.
 
 To use the downloaded project...
-* lein run [args?]
-* lein repl, (-main [args?])
+* lein run [args]
+* lein repl, (-main [args])
 * $java $JVM_OPTS -cp target/uberjar/record-sort-gr.jar clojure.main -m record-sort-gr.core [args?]
-* $java $JVM_OPTS -cp <path-to-jar> clojure.main -m record-sort-gr.core [args?] => if you moved the jar
+* $java $JVM_OPTS -cp `<path-to-jar`> clojure.main -m record-sort-gr.core [args?] => if you moved the jar
 
 This client will test the connection to server on localhost at launch. If found, all further communication
 is to localhost:port. Otherwise it will exclusively target https://record-sort-gr.herokuapp.com/.
