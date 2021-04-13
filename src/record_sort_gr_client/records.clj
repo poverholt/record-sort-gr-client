@@ -3,10 +3,17 @@
   (:require [cheshire.core :as cheshire]
             [clj-http.client :as client]))
 
-(def host "http://localhost:8000")
+(def localhost "http://localhost:8000")
+(def heroku-host "https://record-sort-gr.herokuapp.com")
 
-;; I doubt we need this
-(def server nil)
+(defn test-connection?
+  "Test if target URL is responding."
+  [host]
+  (try
+    (= (:status (client/head (str host "/")) 200))
+    (catch Exception e false)))
+
+(def host (or (test-connection? localhost) heroku-host))
 
 (def state (atom {:sort-order "gender"}))
 

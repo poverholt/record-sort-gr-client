@@ -1,22 +1,31 @@
 # record-sort-gr-client
 
-A Clojure library designed to ... well, that part is up to you.
+A test client for record-sort-gr. See https://github.com/poverholt/record-sort-gr/.
+
+## Installation
+
+This test client and the target server are already installed on Heroku...
+* https://record-sort-gr.herokuapp.com/
+* https://record-sort-gr-client.herokuapp.com/
+
+The server and test client projects are available on GitHub for download...
+* https://github.com/poverholt/record-sort-gr/
+* https://github.com/poverholt/record-sort-gr-client
 
 ## Usage
 
-FIXME
+Visit the Heroku sites mentioned above to use the existing installations.
 
-## License
+To use the downloaded project...
+* lein run [args?]
+* lein repl, (-main [args?])
+* $java $JVM_OPTS -cp target/uberjar/record-sort-gr.jar clojure.main -m record-sort-gr.core [args?]
+* $java $JVM_OPTS -cp <path-to-jar> clojure.main -m record-sort-gr.core [args?] => if you moved the jar
 
-Copyright © 2021 FIXME
+This client will test the connection to server on localhost at launch. If found, all further communication
+is to localhost:port. Otherwise it will exclusively target https://record-sort-gr.herokuapp.com/.
 
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0.
+### Options
 
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+Without arguments, the server defaults to port 8010.
+You can override the default server port with the argument, for example, *lein run 5010*.

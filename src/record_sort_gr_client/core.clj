@@ -18,11 +18,6 @@
   ;;(ANY "/request" [] handle-dump)
   (not-found "Route not found."))
 
-;; I doubt we need this. Makes sure server access code is available to all handlers
-(defn wrap-records-server [hdlr]
-  (fn [req]
-    (hdlr (assoc req :records-server recs/server))))
-
 (defn wrap-server [hdlr]
   (fn [req]
     (assoc-in (hdlr req) [:headers "Server"] "Record Sort GR Client Server")))
@@ -42,8 +37,9 @@
     (wrap-simulated-methods
      routes))))
 
-(defn -main [port]
-  (jetty/run-jetty app                 {:port (Integer. port)}))
+(defn -main [& [port]]
+  (let [port (Integer. (or (System/getenv "PORT") port 8010))]
+    (jetty/run-jetty app {:port port})))
 
 (defn -dev-main [port]
   (jetty/run-jetty (wrap-reload #'app) {:port (Integer. port)}))
